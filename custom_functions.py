@@ -33,7 +33,6 @@ def runSVMshort(convertedmatfile, plot=None, emo1=None, emo2=None):
     if emo1 == emo2:
         emo2 = random.randint(1, 24)
   
-
     print("First emotion is", emo1)
     print("Second emotion is",emo2)
     if plot == 1:
@@ -72,7 +71,6 @@ def runSVMshort(convertedmatfile, plot=None, emo1=None, emo2=None):
     if plot == 1:
         # Get support vectors themselves
         support_vectors = clf.support_vectors_
-
         # Visualize support vectors
         plt.scatter(X_train[:,0], X_train[:,1])
         plt.scatter(support_vectors[:,0], support_vectors[:,1], color='red')
@@ -81,7 +79,6 @@ def runSVMshort(convertedmatfile, plot=None, emo1=None, emo2=None):
         plt.ylabel('X2')
         plt.show()
         
-    
     return all_data_for_svm
     return clf
 
@@ -98,7 +95,6 @@ def runSVMlong(convertedmatfile):
     import multiprocessing as mp
     print("Number of processors: ", mp.cpu_count())
 
-
     all_combos = np.array(list(itertools.combinations(range(1, 25), 2)))
     recall = []
     accuracy = []
@@ -113,7 +109,6 @@ def runSVMlong(convertedmatfile):
         all_data_for_svm = np.concatenate((emo1, emo2), axis=0)
         #target labels
         targets = np.concatenate((np.matlib.repmat(1, emo1.shape[0], 1), np.matlib.repmat(0, emo2.shape[0], 1)), axis = 0)
-    
         #building classifier
         from sklearn.model_selection import train_test_split
         X_train, X_test, y_train, y_test = train_test_split(all_data_for_svm, targets, test_size=0.25,random_state=109) 
