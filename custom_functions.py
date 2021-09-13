@@ -95,24 +95,27 @@ def runSVMlong(convertedmatfile):
     import multiprocessing as mp
     print("Number of processors: ", mp.cpu_count())
 
-    all_combos = np.array(list(itertools.combinations(range(1, 25), 2)))
+
+    all_combos = np.array(list(itertools.combinations(range(0, convertedmatfile.shape[1]), 2)))
     recall = []
     accuracy = []
     precision = []
     
-    for x in range(0, all_combos.shape[0]-1):
+    for x in range(0, all_combos.shape[0]):
         emo1 = np.squeeze(convertedmatfile[:, all_combos[x, 0], :])
         emo2 = np.squeeze(convertedmatfile[:, all_combos[x, 1], :])
         print("Computing combo", x+1, "of", all_combos.shape[0])
-        #print("First emotion is", all_combos[x, 0])
-        #print("Second emotion is",all_combos[x, 1])
+        print("First emotion is", all_combos[x, 0]+1)
+        print("Second emotion is",all_combos[x, 1]+1)
         all_data_for_svm = np.concatenate((emo1, emo2), axis=0)
         #target labels
         targets = np.concatenate((np.matlib.repmat(1, emo1.shape[0], 1), np.matlib.repmat(0, emo2.shape[0], 1)), axis = 0)
+    
         #building classifier
         from sklearn.model_selection import train_test_split
-        X_train, X_test, y_train, y_test = train_test_split(all_data_for_svm, targets, test_size=0.25,random_state=109) 
         #75% training and 25% test
+        X_train, X_test, y_train, y_test = train_test_split(all_data_for_svm, targets, test_size=0.25,random_state=109) 
+
         #Import svm model
         from sklearn import svm
         #Create a svm Classifier
